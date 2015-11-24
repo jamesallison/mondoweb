@@ -57,6 +57,15 @@
 				<div class="col-lg-12">
 					<div class="table-responsive">
 						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th></th>
+									<th>Amount</th>
+									<th>Retailer</th>
+									<th>Date</th>
+									<th>Balance</th>
+								</tr>
+							</thead>
 							<tbody>
 								<?php
 									// loop through transactions
