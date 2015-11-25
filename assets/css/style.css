@@ -1,14 +1,19 @@
 body {
 	padding-bottom: 70px;
-	padding-top: 70px;
-}
-.well {
-	color: #676767;
-}
-.well h1 {
-	margin-bottom: 0px;
 }
 .big {
 	font-size: 5em;
-	color: black;
+	color: white;
+}
+.money-boxes {
+	padding-top: 70px;
+	background-color: #15233c;
+}
+.well {
+	background-color: #434f64;
+	border: 0px;
+}
+.well h1 {
+	color: #b0b3b7;
+	margin-bottom: 0px;
 }

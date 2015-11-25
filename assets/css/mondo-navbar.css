@@ -71,3 +71,8 @@
     background-color: #223963;
   }
 }
+
+/* Remove line */
+.navbar-default {
+	border-bottom: 0px;
+}

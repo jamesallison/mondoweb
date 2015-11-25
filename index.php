@@ -27,7 +27,7 @@
 			$transactions = getTransactions($_SESSION['accesstoken'], $_SESSION['account_number']);
 		?>
 		<div class="container-fluid">
-			<div class="row">
+			<div class="row money-boxes">
 				<div class="col-xs-6">
 					<div class="well text-center">
 						<h1>Current Balance (GBP)</h1>
