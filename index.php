@@ -28,7 +28,7 @@
 		?>
 		<div class="container-fluid">
 			<div class="row money-boxes">
-				<div class="col-xs-6">
+				<div class="col-sm-6">
 					<div class="well text-center">
 						<h1>Current Balance (GBP)</h1>
 						<div class="big">
@@ -40,7 +40,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-6">
+				<div class="col-sm-6">
 					<div class="well text-center">
 						<h1>Spent Today (GBP)</h1>
 						<div class="big">
