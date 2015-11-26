@@ -17,6 +17,7 @@
 <html>
 	<head>
 		<?php require_once('includes/head.php');?>
+		<title>Transactions - Mondo Online Banking</title>
 	</head>
 	<body>
 		<?php
