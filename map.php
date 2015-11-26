@@ -1,4 +1,3 @@
-
 <?php
 	// must be logged in
 	session_start();
@@ -74,7 +73,7 @@
 			$average = $total / $i;
 			
 		?>
-		<script src="http://maps.google.com/maps/api/js?sensor=true&.js"></script>
+		<script src="https://maps.google.com/maps/api/js?sensor=true&.js"></script>
 		<script src="https://rawgit.com/HPNeo/gmaps/master/gmaps.js"></script>
 		<script>
 			var map = new GMaps({
