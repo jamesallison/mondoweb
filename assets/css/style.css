@@ -17,3 +17,7 @@ body {
 	color: #b0b3b7;
 	margin-bottom: 0px;
 }
+.big {
+	font-size: 5em;
+	color: black;
+}
