@@ -1,5 +1,5 @@
 <?php
-	function getTransactions($accesstoken, $accountnumber) {
+	function getTransactions($accesstoken, $accountnumber, $findWeekDay = false) {
 		// GET accounts
 		$crl = curl_init();
 		
@@ -16,6 +16,14 @@
 		curl_close($crl);
 		
 		$json = json_decode($rest, true);
+		
+		// get week day of transaction 
+		if($findWeekDay) {
+			// loop through the transactions
+			foreach($json['transactions'] as $key => $transaction) {
+				$json['transactions'][$key]['weekDay'] = date('l', strtotime($transaction['created']));
+			}
+		}
 		
 		// return the reversed array (so newest transaction is at the top)
 		return array_reverse($json['transactions']);

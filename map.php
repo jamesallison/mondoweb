@@ -12,7 +12,8 @@
 		session_destroy();
 		exit(header('location: /login.php?expired'));
 	}
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html>
 	<head>
 		<style>
@@ -34,7 +35,6 @@
 		</style>
 		<?php require_once('includes/head.php');?>
 		<title>Map - Mondo Online Banking</title>
-		
 	</head>
 	<body>
 		<?php require_once('includes/navbar.php');?>
