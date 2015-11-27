@@ -142,7 +142,6 @@
 					$totals[$transaction['weekDay']][$transaction['category']] = $totals[$transaction['weekDay']][$transaction['category']] + ($transaction['amount'] / 100 * -1);
 				}
 			}
-			var_dump($totals);
 		?>
 		<script>
 			var radarChartData = {
