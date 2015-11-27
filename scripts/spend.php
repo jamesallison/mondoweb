@@ -8,10 +8,10 @@
 			if(strtotime($transaction['created']) > strtotime('today')) {
 				// only include if it's negative
 				if($transaction['amount']<0) {
-					$total = $total.$transaction['created'];
+					$total = $total + $transaction['amount'];
 				}
 			}
 		}
-		return $total;
+		return $total*-1;
 	}
 ?>

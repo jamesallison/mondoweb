@@ -17,6 +17,7 @@
 <html>
 	<head>
 		<?php require_once('includes/head.php');?>
+		<title>Transactions - Mondo Online Banking</title>
 	</head>
 	<body>
 		<?php
@@ -27,8 +28,8 @@
 			$transactions = getTransactions($_SESSION['accesstoken'], $_SESSION['account_number']);
 		?>
 		<div class="container-fluid">
-			<div class="row">
-				<div class="col-xs-6">
+			<div class="row money-boxes">
+				<div class="col-sm-6">
 					<div class="well text-center">
 						<h1>Current Balance (GBP)</h1>
 						<div class="big">
@@ -40,7 +41,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-6">
+				<div class="col-sm-6">
 					<div class="well text-center">
 						<h1>Spent Today (GBP)</h1>
 						<div class="big">
