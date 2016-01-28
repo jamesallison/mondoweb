@@ -1,26 +1,25 @@
 <?php
-	// must be logged in
 	session_start();
-	if(!isset($_SESSION['accesstoken'])) {
+	if(empty($_SESSION['accesstoken'])) {
 		exit(header('location: /login.php'));
 	}
 	
-	// check if the access token is valid
+	// check the access token is still ive
+	require_once('inc/settings.php');
 	require_once('scripts/checkAccessToken.php');
-	if(tokenExpired($_SESSION['accesstoken'])) {
-		// token expired, must login again
-		session_destroy();
+	if(tokenExpired($_SESSION['accesstoken'],$api_root)) {
+		// make them re-auth, their token has expired.
 		exit(header('location: /login.php?expired'));
 	}
+	
+	header("Content-Type: text/html; charset=utf-8");
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
+		<?php require_once('inc/head.php');?>
+		<title>Mondo Online Banking</title>
 		<style>
-			body {
-				padding-top: 50px;
-				padding-bottom: 50px !important;
-			}
 			html,
 			body,
 			#map {
@@ -33,23 +32,16 @@
 			    background: #58B;
 			}
 		</style>
-		<?php require_once('includes/head.php');?>
-		<title>Map - Mondo Online Banking</title>
 	</head>
 	<body>
-		<?php require_once('includes/navbar.php');?>
-		<div id="map"></div>
+		<?php require_once('inc/navbar.php');?>
+		<div class="container"><div id="map" style="width:100%; min-height:100%; height: 600px;"></div></div>
 		<?php
-			// first get the access token
-			session_start();
-			$accesstoken = $_SESSION['accesstoken'];
 			
 			// define the markers array
 			$markers = array();
 			
 			// get transactions
-			require_once('scripts/transactions.php');
-			$transactions = getTransactions($_SESSION['accesstoken'], $_SESSION['account_number']);
 			
 			// set the amount spent counter
 			$total = 0;
@@ -78,8 +70,9 @@
 		<script>
 			var map = new GMaps({
 				div: '#map',
-				lat: 50.99696731567383,
-				lng: -0.10252799838781357
+				lat: 51.5237984,
+				lng: -0.0861244,
+				zoom: 13
 			});
 			<?php
 				foreach($markers as $transaction) { 
@@ -154,7 +147,6 @@
 			});
 			<?php }?>
 		</script>
-		<?php require_once('includes/footer.php');?>
-		<?php require_once('includes/foot.php');?>
+		<?php require_once('inc/foot.php');?>
 	</body>
 </html>
