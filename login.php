@@ -1,26 +1,32 @@
-<?php
-	// they're logging in, destroy session
-	session_start();
-	session_destroy();
-?>
 <!DOCTYPE html>
 <html>
 	<head>
-		<?php require_once('inc/head.php');?>
+		<?php require_once('includes/head.php');?>
 		<link href="/assets/css/login.css" rel="stylesheet">
 	</head>
 	<body>
         <div class="wrapper">
             <div class="container">
-                <center>
-                	<?php
-	                	if(isset($_GET['expired'])) {
-		                	echo '<div class="alert alert-warning">Your session expired, please login to Mondo again.</div>';
-	                	}
-                	?>
-                	<a class="mondoLogin" href="/auth/stategen.php">Login with Mondo</a>
-                	<p class="login-tip">This will take you to Mondo where you can login.</p>
-                </center>
+                <form class="form-signin" action="/scripts/login.php" method="post">
+                    <div class="form-signin-heading">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <img id="logo" src="/assets/img/mondo.png">
+                                <h2 class="text-center">Log In to Mondo</h2>
+                            </div>
+                        </div>
+                        <?php
+                        if(isset($_GET['expired'])) {
+                            echo '<div class="alert alert-warning">Your access token expired, please login again.</div>';
+                        }
+                        ?>
+                    </div>
+                    <label for="inputEmail" class="sr-only">Email address</label>
+                    <input type="email" id="inputEmail" name="username" class="form-control" placeholder="Email address" required autofocus>
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                </form>
             </div>
         </div>
 	</body>

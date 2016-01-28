@@ -1,32 +1,19 @@
 <?php
-	// get the current date for default parameters
-	
-    
-	function getTransactions($accesstoken, $accountnumber, $findWeekDay = false, $api_root, $since, $before, $reverse = true) {
+	function getTransactions($accesstoken, $accountnumber, $findWeekDay = false) {
 		// GET accounts
-		$ch = curl_init();
+		$crl = curl_init();
 		
 		$headr = array(
 			'Content-type: application/json',
 			'Authorization: Bearer '.$accesstoken
 		);
 		
-		if(!empty($since) && !empty($before)) {
-			// they have defined pagination by date
-			$before = $before.'T23:59:59Z';
-			$since = $since.'T00:00:01Z';
-			curl_setopt($ch, CURLOPT_URL, "$api_root/transactions?account_id=$accountnumber&expand[]=merchant&before=$before&since=$since");
-		}
-		else {
-			// just show them all
-			curl_setopt($ch, CURLOPT_URL, "$api_root/transactions?account_id=$accountnumber&expand[]=merchant");
-		}
+		curl_setopt($crl, CURLOPT_URL, "https://production-api.gmon.io/transactions?account_id=$accountnumber&expand[]=merchant");
+		curl_setopt($crl, CURLOPT_HTTPHEADER, $headr);
+		curl_setopt($crl, CURLOPT_RETURNTRANSFER, TRUE);
+		$rest = curl_exec($crl);
 		
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headr);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-		$rest = curl_exec($ch);
-		
-		curl_close($ch);
+		curl_close($crl);
 		
 		$json = json_decode($rest, true);
 		
@@ -38,12 +25,7 @@
 			}
 		}
 		
-		if($reverse) {
-			// return the reversed array (so newest transaction is at the top)
-			return array_reverse($json['transactions']);
-		}
-		else {
-			return $json['transactions'];
-		}
+		// return the reversed array (so newest transaction is at the top)
+		return array_reverse($json['transactions']);
 	}
 ?>

@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    background: rgb(21, 35, 60) url('/assets/img/bg.png') no-repeat top left;
+    background: rgb(21, 35, 60) url('../img/bg_960.png') no-repeat top left;
     height: 100%;
     padding: 0;
 }
@@ -81,24 +81,4 @@ h1, h2, h3 {
     background-color: steelblue;
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
-}
-
-.mondoLogin {
-  width: 380px;
-  height: 80px;
-  background: rgba(255, 255, 255, 0) url("/assets/img/mondo.png") 28px center no-repeat;
-  background-size: auto 40px;
-  border: solid 2px rgba(255, 255, 255, 0.7);
-  color: rgba(255, 255, 255, 0.7);
-  padding-left: 95px;
-  font-size: 30px;
-  text-align: left;
-  margin-left: 0 !important;
-  border-radius: 6px; }
-  .mondoLogin:hover {
-    background-color: rgba(255, 255, 255, 0.2); }
-    
-.login-tip {
-	margin-top: 15px;
-	color: #d2d2d2; 
 }

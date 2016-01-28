@@ -1,39 +1,76 @@
 <?php
+	// must be logged in
 	session_start();
-	if(empty($_SESSION['accesstoken'])) {
+	if(!isset($_SESSION['accesstoken'])) {
 		exit(header('location: /login.php'));
 	}
 	
-	// check the access token is still ive
-	require_once('inc/settings.php');
+	// check if the access token is valid
 	require_once('scripts/checkAccessToken.php');
-	if(tokenExpired($_SESSION['accesstoken'],$api_root)) {
-		// make them re-auth, their token has expired.
+	if(tokenExpired($_SESSION['accesstoken'])) {
+		// token expired, must login again
+		session_destroy();
 		exit(header('location: /login.php?expired'));
 	}
-	
-	header("Content-Type: text/html; charset=utf-8");
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
-		<?php require_once('inc/head.php');?>
-		<title>Mondo Online Banking</title>
+		<?php require_once('includes/head.php');?>
+		<title>Transactions - Mondo Online Banking</title>
 	</head>
 	<body>
-		<div class="container">
-			<?php require_once('inc/navbar.php');?>
+		<?php
+			require_once('includes/navbar.php');
+			
+			// get transactions
+			require_once('scripts/transactions.php');
+			$transactions = getTransactions($_SESSION['accesstoken'], $_SESSION['account_number'], true);
+		?>
+		<div class="container-fluid">
+			<div class="row money-boxes">
+				<div class="col-sm-6">
+					<div class="well text-center">
+						<h1>Current Balance (GBP)</h1>
+						<div class="big">
+							<?php
+								// get current balance
+								require_once('scripts/balance.php');
+								echo '&pound;'.number_format(balance($transactions)/100,2);
+							?>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="well text-center">
+						<h1>Spent Today (GBP)</h1>
+						<div class="big">
+							<?php
+								// get today's spend
+								require_once('scripts/spend.php');
+								echo '&pound;'.number_format(spend($transactions)/100,2);
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row charts">
+				<div style="width:30%">
+			<canvas id="canvas" height="450" width="450"></canvas>
+		</div>
+		<div id="legend"></div>
+			</div>
 			<div class="row">
-				<div class="col-sm-9">
+				<div class="col-lg-12">
 					<div class="table-responsive">
-						<table class="table table-hover" id="transactions">
+						<table class="table table-hover">
 							<thead>
 								<tr>
 									<th></th>
-									<th class="no-sort">Amount</th>
-									<th class="no-sort">Retailer</th>
-									<th class="no-sort">Date</th>
-									<th class="no-sort">Balance</th>
+									<th>Amount</th>
+									<th>Retailer</th>
+									<th>Date</th>
+									<th>Balance</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -43,17 +80,17 @@
 										if($transaction['amount']<0) {
 											$class = 'text-danger';
 											$amount = '- &pound;'.number_format($transaction['amount']*-1/100,2);
-											$type = '<span class="label label-danger"><i class="fa fa-arrow-down"></i></span>';
+											$type = '<span class="label label-danger">OUT</span>';
 										}
 										else if($transaction['amount']>0) {
 											$class = 'text-success';
 											$amount = '+ &pound;'.number_format($transaction['amount']/100,2);
-											$type = '<span class="label label-success"><i class="fa fa-arrow-up"></i></span>';
+											$type = '<span class="label label-success">TOP-UP</span>';
 										}
 										else {
 											$class = 'text-muted';
 											$amount = '&plusmn; &pound;0';
-											$type = '<span class="label label-default"><i class="fa fa-check"></i></span>';
+											$type = '<span class="label label-default">NOTHING</span>';
 										}
 								?>
 								<tr>
@@ -62,118 +99,146 @@
 									<td>
 										<?php
 											if(empty($transaction['merchant']['name'])) {
-												$transaction_title = $transaction['description'];
-												echo $transaction_title;
+												echo $transaction['description'];
 											}
 											else {
-												$transaction_title = $transaction['merchant']['emoji'].' '.$transaction['merchant']['name'];
-												echo $transaction_title;
+												echo $transaction['merchant']['name'];
 											}
 										?>
 									</td>
 									<td>
-										<a href="#" data-toggle="modal" data-target="#transactionModal" data-transaction_title="<?php echo $transaction_title;?>" data-transaction_amount="<?php echo $transaction['amount']/100;?>" data-transaction_date="<?php echo date('d\/m\/Y g:i a', strtotime($transaction['created']));?>" style="color: #333;">
-											<?php
-												echo date('d\/m\/Y g:i a', strtotime($transaction['created']));
-											?>
-										</a>
+										<?php
+											echo date('d\/m\/Y g:i a', strtotime($transaction['created']));
+										?>
 									</td>
 									<td><?php echo '&pound;'.number_format($transaction['account_balance']/100,2);?></td>
 								</tr>
 								<?php }?>
 							</tbody>
-
-							
 						</table>
-						<div class="modal fade" id="transactionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-											<h4 class="modal-title" id="exampleModalLabel">Transaction Name</h4>
-										</div>
-										<div class="modal-body">
-											<center>
-												<h1 class="transaction_amount"></h1>
-												<h3 class="transaction_title"></h3>
-												<h4 class="notes"><?php echo $transaction['description'];?></h4>
-											</center>
-											<table class="table">
-												<tr></tr>
-											</table>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-											<button type="button" class="btn btn-primary">Send message</button>
-										</div>
-									</div>
-								</div>
-							</div>
 					</div>
-				</div>
-				<div class="col-sm-3">
-					<h3>Account Overview</h3>
-					<?php
-						require_once('scripts/expenditure.php');
-						$balanceDetails = currentBalance($_SESSION['accesstoken'], $_SESSION['account_number'], $api_root);
-						require_once('scripts/accountInfo.php');
-						$accountInfo = getAccountInfo($_SESSION['accesstoken'], $api_root, true);
-					?>
-					<table class="table">
-						<tr>
-							<td>
-								<b>Current Balance: </b>
-							</td>
-							<td style="text-align: right;">
-								<span style="font-size: 1em;" class="label label-success"><?php echo '&pound;'.number_format($balanceDetails['balance']/100,2);?></span>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<b>Spent Today: </b>
-							</td>
-							<td style="text-align: right;">
-								<span style="font-size: 1em;" class="label label-danger"><?php echo '&pound;'.number_format(trim($balanceDetails['spend_today'],'-')/100,2);?></span>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<b>Sort Code: </b>
-							</td>
-							<td style="text-align: right;">
-								<span style="font-size: 1em;" class="label label-info"><?php echo $accountInfo['sort_code'];?></span>
-							</td>
-						</tr>
-					</table>
 				</div>
 			</div>
 		</div>
-		<?php require_once('inc/foot.php');?>
-		<script src="/assets/js/jquery.dataTables.min.js" type="text/javascript"></script>
-		<script src="/assets/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
+		<?php require_once('includes/footer.php');?>
+		<?php require_once('includes/foot.php');?>
+	
+		<script src="/assets/js/Chart.js"></script>
+		<?php
+			/* generate each category's totals */
+			$totals = array();
+			$totals['Monday'] = array();
+			$totals['Tuesday'] = array();
+			$totals['Wednesday'] = array();
+			$totals['Thursday'] = array();
+			$totals['Friday'] = array();
+			$totals['Saturday'] = array();
+			$totals['Sunday'] = array();
+			
+			// monday
+			foreach($transactions as $transaction) {
+				// only add if the category is there and it's negative (expenditure)
+				if(!empty($transaction['category']) && $transaction['amount']<0) {
+					$totals[$transaction['weekDay']][$transaction['category']] = $totals[$transaction['weekDay']][$transaction['category']] + ($transaction['amount'] / 100 * -1);
+				}
+			}
+		?>
 		<script>
-			$(document).ready(function() {
-				$('#transactions').DataTable(
+			var radarChartData = {
+				labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+				datasets: [
 					{
-						"aoColumnDefs" : [ {
-						    "bSortable" : false,
-						    "aTargets" : [ "no-sort" ]
-						} ]
+						label: "Transport",
+						fillColor: "rgba(166,201,208,0.2)",
+						strokeColor: "rgba(166,201,208,1)",
+						pointColor: "rgba(166,201,208,1)",
+						pointStrokeColor: "#fff",
+						pointHighlightFill: "#fff",
+						pointHighlightStroke: "rgba(166,201,208,1)",
+						data: [<?php echo round($totals['Monday']['transport'],2).','.round($totals['Tuesday']['transport'],2).','.round($totals['Wednesday']['transport'],2).','.round($totals['Thursday']['transport'],2).','.round($totals['Friday']['transport'],2).','.round($totals['Saturday']['transport'],2).','.round($totals['Sunday']['transport'],2);  ?>]
+					},
+					{
+						label: "Groceries",
+						fillColor: "rgba(249,225,181,0.2)",
+						strokeColor: "rgba(249,225,181,1)",
+						pointColor: "rgba(249,225,181,1)",
+						pointStrokeColor: "#fff",
+						pointHighlightFill: "#fff",
+						pointHighlightStroke: "rgba(244,183,191,1)",
+						data: [<?php echo round($totals['Monday']['groceries'],2).','.round($totals['Tuesday']['groceries'],2).','.round($totals['Wednesday']['groceries'],2).','.round($totals['Thursday']['groceries'],2).','.round($totals['Friday']['groceries'],2).','.round($totals['Saturday']['groceries'],2).','.round($totals['Sunday']['groceries'],2);  ?>]
+					},
+					{
+						label: "Eating Out",
+						fillColor: "rgba(244,183,191,0.2)",
+						strokeColor: "rgba(244,183,191,1)",
+						pointColor: "rgba(244,183,191,1)",
+						pointStrokeColor: "#fff",
+						pointHighlightFill: "#fff",
+						pointHighlightStroke: "rgba(244,183,191,1)",
+						data: [<?php echo round($totals['Monday']['eating_out'],2).','.round($totals['Tuesday']['eating_out'],2).','.round($totals['Wednesday']['eating_out'],2).','.round($totals['Thursday']['eating_out'],2).','.round($totals['Friday']['eating_out'],2).','.round($totals['Saturday']['eating_out'],2).','.round($totals['Sunday']['eating_out'],2);  ?>]
+					},
+					{
+						label: "Cash",
+						fillColor: "rgba(215,228,221,0.2)",
+						strokeColor: "rgba(215,228,221,1)",
+						pointColor: "rgba(215,228,221,1)",
+						pointStrokeColor: "#fff",
+						pointHighlightFill: "#fff",
+						pointHighlightStroke: "rgba(215,228,221,1)",
+						data: [<?php echo round($totals['Monday']['cash'],2).','.round($totals['Tuesday']['cash'],2).','.round($totals['Wednesday']['cash'],2).','.round($totals['Thursday']['cash'],2).','.round($totals['Friday']['cash'],2).','.round($totals['Saturday']['cash'],2).','.round($totals['Sunday']['cash'],2);  ?>]
+					},
+					{
+						label: "Bills",
+						fillColor: "rgba(186,227,240,0.2)",
+						strokeColor: "rgba(186,227,240,1)",
+						pointColor: "rgba(186,227,240,1)",
+						pointStrokeColor: "#fff",
+						pointHighlightFill: "#fff",
+						pointHighlightStroke: "rgba(186,227,240,1)",
+						data: [<?php echo round($totals['Monday']['bills'],2).','.round($totals['Tuesday']['bills'],2).','.round($totals['Wednesday']['bills'],2).','.round($totals['Thursday']['bills'],2).','.round($totals['Friday']['bills'],2).','.round($totals['Saturday']['bills'],2).','.round($totals['Sunday']['bills'],2);  ?>]
+					},
+					{
+						label: "Entertainment",
+						fillColor: "rgba(242,203,182,0.2)",
+						strokeColor: "rgba(242,203,182,1)",
+						pointColor: "rgba(242,203,182,1)",
+						pointStrokeColor: "#fff",
+						pointHighlightFill: "#fff",
+						pointHighlightStroke: "rgba(242,203,182,1)",
+						data: [<?php echo round($totals['Monday']['entertainment'],2).','.round($totals['Tuesday']['entertainment'],2).','.round($totals['Wednesday']['entertainment'],2).','.round($totals['Thursday']['entertainment'],2).','.round($totals['Friday']['entertainment'],2).','.round($totals['Saturday']['entertainment'],2).','.round($totals['Sunday']['entertainment'],2);  ?>]
+					},
+					{
+						label: "Shopping",
+						fillColor: "rgba(246,212,213,0.2)",
+						strokeColor: "rgba(246,212,213,1)",
+						pointColor: "rgba(246,212,213,1)",
+						pointStrokeColor: "#fff",
+						pointHighlightFill: "#fff",
+						pointHighlightStroke: "rgba(246,212,213,1)",
+						data: [<?php echo round($totals['Monday']['shopping'],2).','.round($totals['Tuesday']['shopping'],2).','.round($totals['Wednesday']['shopping'],2).','.round($totals['Thursday']['shopping'],2).','.round($totals['Friday']['shopping'],2).','.round($totals['Saturday']['shopping'],2).','.round($totals['Sunday']['shopping'],2);  ?>]
+					},
+					{
+						label: "Holidays",
+						fillColor: "rgba(227,205,254,0.2)",
+						strokeColor: "rgba(227,205,254,1)",
+						pointColor: "rgba(227,205,254,1)",
+						pointStrokeColor: "#fff",
+						pointHighlightFill: "#fff",
+						pointHighlightStroke: "rgba(227,205,254,1)",
+						data: [<?php echo round($totals['Monday']['holidays'],2).','.round($totals['Tuesday']['holidays'],2).','.round($totals['Wednesday']['holidays'],2).','.round($totals['Thursday']['holidays'],2).','.round($totals['Friday']['holidays'],2).','.round($totals['Saturday']['holidays'],2).','.round($totals['Sunday']['holidays'],2);  ?>]
 					}
-				);
-			});
-		</script>
-		<script>
-			$('#transactionModal').on('show.bs.modal', function (event) {
-			  var button = $(event.relatedTarget) // Button that triggered the modal
-			  var description = button.data('transaction_title')
-			  var amount = button.data('transaction_amount')
-			  var date = button.data('transaction_date')
-			  var modal = $(this)
-			  modal.find('.modal-title').text(date)
-			  modal.find('.transaction_amount').text(amount)
-			  modal.find('.transaction_title').text(description)
-			})
+				]
+			};
+		
+			window.onload = function(){
+				window.myRadar = new Chart(document.getElementById("canvas").getContext("2d")).Radar(radarChartData, {
+					responsive: true,
+					legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"><%if(datasets[i].label){%><%=datasets[i].label%><%}%></span></li><%}%></ul>"
+				});
+				
+				document.getElementById("legend").innerHTML = myRadar.generateLegend()
+			}
+	
 		</script>
 	</body>
 </html>
