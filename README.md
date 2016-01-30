@@ -3,6 +3,14 @@
 
 Hoping to release this open source Mondo online banking client once Mondo becomes more publicly available. For now, you may host this on your own webserver.
 
+## Features
+- Three-legged OAuth support
+- Searchable & paginated table of transactions
+- Map of transactions
+- Legacy bank style account statements by month
+- CSV Export of all your transactions
+- Disable / enable your card
+
 ## Installation
 1. Create a file called settings.php in the inc directory.
 2. Paste in the following code
