@@ -72,7 +72,7 @@
 										?>
 									</td>
 									<td>
-										<a href="#" data-toggle="modal" data-target="#transactionModal" data-transaction_title="<?php echo $transaction_title;?>" data-transaction_amount="<?php echo $transaction['amount']/100;?>" data-transaction_date="<?php echo date('d\/m\/Y g:i a', strtotime($transaction['created']));?>" style="color: #333;">
+										<a href="#" data-toggle="modal" data-target="#transactionModal" data-transaction_title="<?php echo $transaction_title;?>" data-transaction_amount="<?php echo "<span class='$class'>$amount</span>";?>" data-transaction_date="<?php echo date('d\/m\/Y g:i a', strtotime($transaction['created']));?>" data-transaction_notes="<?php echo $transaction['notes'];?>" style="color: #333;">
 											<?php
 												echo date('d\/m\/Y g:i a', strtotime($transaction['created']));
 											?>
@@ -96,15 +96,11 @@
 											<center>
 												<h1 class="transaction_amount"></h1>
 												<h3 class="transaction_title"></h3>
-												<h4 class="notes"><?php echo $transaction['description'];?></h4>
+												<p class="notes lead"></p>
 											</center>
 											<table class="table">
 												<tr></tr>
 											</table>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-											<button type="button" class="btn btn-primary">Send message</button>
 										</div>
 									</div>
 								</div>
@@ -166,13 +162,11 @@
 		<script>
 			$('#transactionModal').on('show.bs.modal', function (event) {
 			  var button = $(event.relatedTarget) // Button that triggered the modal
-			  var description = button.data('transaction_title')
-			  var amount = button.data('transaction_amount')
-			  var date = button.data('transaction_date')
 			  var modal = $(this)
-			  modal.find('.modal-title').text(date)
-			  modal.find('.transaction_amount').text(amount)
-			  modal.find('.transaction_title').text(description)
+			  modal.find('.modal-title').text(button.data('transaction_date'))
+			  modal.find('.transaction_amount').html(button.data('transaction_amount'))
+			  modal.find('.transaction_title').text(button.data('transaction_title'))
+			  modal.find('.notes').text(button.data('transaction_notes'))
 			})
 		</script>
 	</body>

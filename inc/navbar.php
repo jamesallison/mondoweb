@@ -38,6 +38,8 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Statements <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<?php
+									// set timezone
+									date_default_timezone_set('Europe/London');
 									// get transactions
 									require_once('scripts/transactions.php');
 									$transactions = getTransactions($_SESSION['accesstoken'], $_SESSION['account_number'], false, $api_root);
