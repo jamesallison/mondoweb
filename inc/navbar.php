@@ -42,7 +42,7 @@
 									date_default_timezone_set('Europe/London');
 									// get transactions
 									require_once('scripts/transactions.php');
-									$transactions = getTransactions($_SESSION['accesstoken'], $_SESSION['account_number'], false, $api_root);
+									$transactions = getTransactions($_SESSION['accesstoken'], $_SESSION['account_id'], false, $api_root);
 									$first_transaction = array_reverse($transactions);
 									
 									// first month
@@ -65,7 +65,7 @@
 						<li>
 							<?php
 								require_once('scripts/freezeStatus.php');
-								$cards = listCards($_SESSION['accesstoken'], $_SESSION['account_number'], $api_root);
+								$cards = listCards($_SESSION['accesstoken'], $_SESSION['account_id'], $api_root);
 							?>
 							<a href="/scripts/freeze.php?cardid=<?php echo $cards[0]['id'];?>&status=<?php if($cards[0]['status']=='ACTIVE') {echo 'INACTIVE';} else {echo 'ACTIVE';}?>&return=<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]".'&api_root='.$api_root;?>" style="color: #<?php if($cards[0]['status']=='ACTIVE') {echo '9ABBA8';} else {echo 'e64b5f';}?> !important;">
 								<?php if($cards[0]['status']=='ACTIVE') {echo 'Card active';} else {echo 'Card frozen';}?>

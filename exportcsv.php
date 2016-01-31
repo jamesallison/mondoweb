@@ -15,7 +15,7 @@
 	}
 	
 	require_once('scripts/transactions.php');
-	$transactions = getTransactions($_SESSION['accesstoken'], $_SESSION['account_number'], false, $api_root);
+	$transactions = getTransactions($_SESSION['accesstoken'], $_SESSION['account_id'], false, $api_root);
 	
 	// open the output stream
 	$f = fopen('php://output', 'w');

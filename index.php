@@ -111,7 +111,7 @@
 					<h3>Account Overview</h3>
 					<?php
 						require_once('scripts/expenditure.php');
-						$balanceDetails = currentBalance($_SESSION['accesstoken'], $_SESSION['account_number'], $api_root);
+						$balanceDetails = currentBalance($_SESSION['accesstoken'], $_SESSION['account_id'], $api_root);
 						require_once('scripts/accountInfo.php');
 						$accountInfo = getAccountInfo($_SESSION['accesstoken'], $api_root, true);
 					?>
@@ -130,6 +130,14 @@
 							</td>
 							<td style="text-align: right;">
 								<span style="font-size: 1em;" class="label label-danger"><?php echo '&pound;'.number_format(trim($balanceDetails['spend_today'],'-')/100,2);?></span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Account Number: </b>
+							</td>
+							<td style="text-align: right;">
+								<span style="font-size: 1em;" class="label label-info"><?php echo $accountInfo['account_number'];?></span>
 							</td>
 						</tr>
 						<tr>

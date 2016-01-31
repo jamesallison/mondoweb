@@ -61,6 +61,7 @@
 							$accountInfo = getAccountInfo($_SESSION['accesstoken'], $api_root, true);
 						?>
 						<b><?php echo $_SESSION['fullname'];?></b><br/>
+						<?php echo $accountInfo['account_number'];?><br/>
 						<?php echo $accountInfo['sort_code'];?>
 					</div>
 				</div>
@@ -70,7 +71,7 @@
 					<?php
 						// get transactions
 						require_once('transactions.php');
-						$transactions = getTransactions($_SESSION['accesstoken'], $_SESSION['account_number'], false, $api_root, $d_start->format('Y-m-d'), $d_end->format('Y-m-d'), false);
+						$transactions = getTransactions($_SESSION['accesstoken'], $_SESSION['account_id'], false, $api_root, $d_start->format('Y-m-d'), $d_end->format('Y-m-d'), false);
 						
 						// init statistical variables
 						$totalspent = 0;
