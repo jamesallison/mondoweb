@@ -172,7 +172,10 @@
 									<td><?php echo date('jS M', strtotime($transaction['created'])).' <span class="text-muted">at</span> '.date('g:ia', strtotime($transaction['created']));?></td>
 									<td>
 										<?php
-											if(empty($transaction['merchant']['name'])) {
+											if($transaction['is_load']) {
+												echo '<img src="/assets/img/mondo.png" style="height: 1em;">'.' &nbsp;'.$transaction['description'];
+											}
+											else if(empty($transaction['merchant']['name'])) {
 												echo $transaction['description'];
 											}
 											else {

@@ -61,14 +61,17 @@
 									<td><?php echo "<span class='$class'>$amount</span>";?></td>
 									<td>
 										<?php
-											if(empty($transaction['merchant']['name'])) {
+											if($transaction['is_load']) {
+												echo '<img src="/assets/img/mondo.png" style="height: 1em;"> &nbsp;';
+												$transaction_title = 'Top Up';
+											}
+											else if(empty($transaction['merchant']['name'])) {
 												$transaction_title = $transaction['description'];
-												echo $transaction_title;
 											}
 											else {
 												$transaction_title = $transaction['merchant']['emoji'].' '.$transaction['merchant']['name'];
-												echo $transaction_title;
 											}
+											echo $transaction_title;
 										?>
 									</td>
 									<td>
