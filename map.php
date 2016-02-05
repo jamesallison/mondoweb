@@ -51,8 +51,11 @@
 			
 			// loop through the transactions
 			foreach($transactions as $transaction) {
-				// first check if the location is there
-				if(!empty($transaction['merchant']['address']['latitude'])) {
+				// coordinates must be present
+				// must be a physical location transaction
+				// must be negative amount
+				// check if the location is there, if it's not an online transaction (physical locations only), and 
+				if(!empty($transaction['merchant']['address']['latitude']) && !$transaction['merchant']['online'] && strpos($transaction['amount'], '-') !== false) {
 					// add to the array
 					array_push($markers, $transaction);
 					// add to the total
