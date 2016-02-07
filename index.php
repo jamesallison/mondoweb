@@ -75,7 +75,7 @@
 										?>
 									</td>
 									<td>
-										<a href="#" data-toggle="modal" data-target="#transactionModal" data-transaction_title="<?php echo $transaction_title;?>" data-transaction_amount="<?php echo "<span class='$class'>$amount</span>";?>" data-transaction_date="<?php echo date('d\/m\/Y g:i a', strtotime($transaction['created']));?>" data-transaction_notes="<?php echo $transaction['notes'];?>" style="color: #333;">
+										<a href="#" data-toggle="modal" data-target="#transactionModal" data-transaction_title="<?php echo $transaction_title;?>" data-transaction_amount="<?php echo "<span class='$class'>$amount</span>";?>" data-transaction_date="<?php echo date('d\/m\/Y g:i a', strtotime($transaction['created']));?>" data-transaction_notes="<?php echo $transaction['notes'];?>" data-transaction_category="<?php echo $transaction['category'];?>" style="color: #333;">
 											<?php
 												echo date('d\/m\/Y g:i a', strtotime($transaction['created']));
 											?>
