@@ -10,7 +10,6 @@ body {
 .brand-custom {
 	padding: 10px !important;
 }
-.doubleUnderline {
-    text-decoration:underline;
-    border-bottom: 1px solid #000;
+.category {
+	font-size: 1.3em;
 }

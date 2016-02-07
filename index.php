@@ -100,10 +100,8 @@
 												<h1 class="transaction_amount"></h1>
 												<h3 class="transaction_title"></h3>
 												<p class="notes lead"></p>
+												<span class="label label-info category"></span>
 											</center>
-											<table class="table">
-												<tr></tr>
-											</table>
 										</div>
 									</div>
 								</div>
@@ -178,6 +176,7 @@
 			  modal.find('.transaction_amount').html(button.data('transaction_amount'))
 			  modal.find('.transaction_title').text(button.data('transaction_title'))
 			  modal.find('.notes').text(button.data('transaction_notes'))
+			  modal.find('.category').text(button.data('transaction_category')).css('textTransform', 'capitalize')
 			})
 		</script>
 	</body>
