@@ -30,6 +30,15 @@
 		
 		$json = json_decode($rest, true);
 		
+		// change the declined transaction amounts to zero
+		foreach($json['transactions'] as &$transaction) {
+			if(!empty($transaction['decline_reason'])) {
+				// declined transaction, set amount to zero
+				$transaction['amount_declined'] = $transaction['amount'];
+				$transaction['amount'] = 0;
+			}
+		}
+		
 		// get week day of transaction 
 		if($findWeekDay) {
 			// loop through the transactions
