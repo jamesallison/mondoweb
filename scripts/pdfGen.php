@@ -61,8 +61,6 @@
 							$accountInfo = getAccountInfo($_SESSION['accesstoken'], $api_root, true);
 						?>
 						<b><?php echo $_SESSION['fullname'];?></b><br/>
-						<?php echo $accountInfo['account_number'];?><br/>
-						<?php echo $accountInfo['sort_code'];?>
 					</div>
 				</div>
 			</div>

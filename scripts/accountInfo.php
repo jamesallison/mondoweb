@@ -24,7 +24,6 @@
 		}
 		else {
 			$_SESSION['account_id'] = $json['accounts'][0]['id'];
-			$_SESSION['account_number'] = $json['accounts'][0]['number'];
 			$_SESSION['fullname'] = $json['accounts'][0]['description'];
 		}
 	}

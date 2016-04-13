@@ -143,22 +143,6 @@
 								<span style="font-size: 1em;" class="label label-danger"><?php echo '&pound;'.number_format(trim($balanceDetails['spend_today'],'-')/100,2);?></span>
 							</td>
 						</tr>
-						<tr>
-							<td>
-								<b>Account Number: </b>
-							</td>
-							<td style="text-align: right;">
-								<span style="font-size: 1em;" class="label label-info"><?php echo $accountInfo['account_number'];?></span>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<b>Sort Code: </b>
-							</td>
-							<td style="text-align: right;">
-								<span style="font-size: 1em;" class="label label-info"><?php echo $accountInfo['sort_code'];?></span>
-							</td>
-						</tr>
 					</table>
 				</div>
 			</div>

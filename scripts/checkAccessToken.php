@@ -17,7 +17,7 @@
 		
 		$json = json_decode($rest, true);
 		
-		if(empty($json['accounts'][0]['account_number'])) {
+		if(empty($json['accounts'][0]['id'])) {
 			// token has expired, destroy the session so we aren't keeping an expired accesstoken in the session
 			return true;
 		}
