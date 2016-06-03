@@ -24,14 +24,28 @@
 	ob_start();
 	
 	// set the headers
-	$column_headers = array('ID', 'Time', 'Description', 'Amount', 'Currency', 'Merchant Info', 'Notes', 'Balance', 'Category', 'Local Amount', 'Local Currency');
+	$column_headers = array('ID', 'Time', 'Description', 'Amount', 'Currency', 'Notes', 'Balance', 'Category', 'Local Amount', 'Local Currency', 'lat', 'long');
 	fputcsv($f, $column_headers);
 	
 	foreach ($transactions as $transaction) {
+		// extract the country data
+		if (isset($transaction['merchant']['address']['latitude']) && isset($transaction['merchant']['address']['longitude'])) {
+			$transaction['lat'] = $transaction['merchant']['address']['latitude'];
+			$transaction['long'] = $transaction['merchant']['address']['longitude'];
+		}
+		
+		// remove columns we don't want
+		unset($transaction['merchant']);
 		unset($transaction['metadata']);
 		unset($transaction['attachments']);
 		unset($transaction['is_load']);
 		unset($transaction['settled']);
+		unset($transaction['updated']);
+		unset($transaction['account_id']);
+		unset($transaction['counterparty']);
+		unset($transaction['scheme']);
+		unset($transaction['dedupe_id']);
+		unset($transaction['originator']);
 		unset($transaction['metadata']);
 		unset($transaction['decline_reason']);
 		fputcsv($f, $transaction);
