@@ -18,7 +18,7 @@
 <html>
 	<head>
 		<?php require_once('inc/head.php');?>
-		<title>Mondo Online Banking</title>
+		<title>Monzo Online Banking</title>
 		<style>
 			html,
 			body,

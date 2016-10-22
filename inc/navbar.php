@@ -10,7 +10,7 @@
 				<ul class="nav nav-pills">
 					<li role="presentation" class="active"><a href="#"><i class="fa fa-home"></i> Home</a></li>
 					<li role="presentation"><a href="#"><i class="fa fa-info-circle"></i> Profile</a></li>
-					<li role="presentation"><a href="https://twitter.com/getmondo" target="_blank"><i class="fa fa-twitter"></i> Contact Mondo</a></li>
+					<li role="presentation"><a href="https://twitter.com/monzo" target="_blank"><i class="fa fa-twitter"></i> Contact Monzo</a></li>
 				</ul>
 			</div>
 		</div>
@@ -26,7 +26,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand brand-custom" href="/"><img src="/assets/img/mondo-bw.png" style="height:100%;"></a>
+					<a class="navbar-brand brand-custom" href="/"><img src="/assets/img/monzo-bw.png" style="height:100%;"></a>
 				</div>
 		
 				<!-- Collect the nav links, forms, and other content for toggling -->

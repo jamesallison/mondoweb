@@ -15,11 +15,11 @@
                 <center>
                 	<?php
 	                	if(isset($_GET['expired'])) {
-		                	echo '<div class="alert alert-warning">Your session expired, please login to Mondo again.</div>';
+		                	echo '<div class="alert alert-warning">Your session expired, please login to Monzo again.</div>';
 	                	}
                 	?>
-                	<a class="mondoLogin" href="/auth/stategen.php">Login with Mondo</a>
-                	<p class="login-tip">This will take you to Mondo where you can login.</p>
+                	<a class="monzoLogin" href="/auth/stategen.php">Login with Monzo</a>
+                	<p class="login-tip">This will take you to Monzo where you can login.</p>
                 </center>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <?php
 	function getAccountInfo($accesstoken, $api_root, $return = false) {
-		// find out their account details
+		// Find out their account details.
 		$ch = curl_init();
 		
 		$headr = array(
@@ -17,9 +17,9 @@
 		
 		$json = json_decode($rest, true);
 		
-		// we can change the once mondo adds multiple bank accounts per login, but for the moment we can just go for account #0
+		// We can change this once monzo adds multiple bank accounts per login, but for the moment we can just go for account #0.
 		if($return) {
-			// values should be returned
+			// Values should be returned.
 			return $json['accounts'][0];
 		}
 		else {
