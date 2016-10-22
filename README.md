@@ -1,7 +1,7 @@
 # MondoWeb
-### An online banking client built on the Mondo API
+### An online banking client built on the Monzo API
 
-Hoping to release this open source Mondo online banking client once Mondo becomes more publicly available. For now, you may host this on your own webserver.
+Hoping to release this open source Monzo online banking client once Monzo becomes more publicly available. For now, you may host this on your own webserver.
 
 ## Features
 - Three-legged OAuth support
@@ -14,7 +14,7 @@ Hoping to release this open source Mondo online banking client once Mondo become
 ## Installation
 1. Create a file called settings.php in the inc directory.
 2. Paste in the following code
-3. Place your Mondo OAuth credentials in the file
+3. Place your Monzo OAuth credentials in the file
 
 ```
 <?php
@@ -27,6 +27,6 @@ Hoping to release this open source Mondo online banking client once Mondo become
 	// set the api auth root url - *you don't need to touch this*
 	$api_auth_root = 'https://auth.getmondo.co.uk';
 	// api root url - *you don't need to touch this*
-	$api_root = 'https://api.getmondo.co.uk';
+	$api_root = 'https://api.monzo.com';
 ?>
 ```

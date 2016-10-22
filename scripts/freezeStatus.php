@@ -17,7 +17,7 @@
 		
 		$json = json_decode($rest, true);
 		
-		// we can change the once mondo adds multiple bank accounts per login, but for the moment we can just go for account #0
+		// We can change the once monzo adds multiple bank accounts per login, but for the moment we can just go for account #0.
 		return $json['cards'];
 	}
 ?>

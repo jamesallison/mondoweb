@@ -83,10 +83,10 @@ h1, h2, h3 {
     font-weight: 400;
 }
 
-.mondoLogin {
+.monzoLogin {
   width: 380px;
   height: 80px;
-  background: rgba(255, 255, 255, 0) url("/assets/img/mondo.png") 28px center no-repeat;
+  background: rgba(255, 255, 255, 0) url("/assets/img/monzo.png") 28px center no-repeat;
   background-size: auto 40px;
   border: solid 2px rgba(255, 255, 255, 0.7);
   color: rgba(255, 255, 255, 0.7);
@@ -95,7 +95,7 @@ h1, h2, h3 {
   text-align: left;
   margin-left: 0 !important;
   border-radius: 6px; }
-  .mondoLogin:hover {
+  .monzoLogin:hover {
     background-color: rgba(255, 255, 255, 0.2); }
     
 .login-tip {

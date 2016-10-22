@@ -18,7 +18,7 @@
 <html>
 	<head>
 		<?php require_once('inc/head.php');?>
-		<title>Mondo Online Banking</title>
+		<title>Monzo Online Banking</title>
 	</head>
 	<body>
 		<div class="container">
@@ -71,7 +71,7 @@
 									<td>
 										<?php
 											if($transaction['is_load']) {
-												echo '<img src="/assets/img/mondo.png" style="height: 1em;"> &nbsp;';
+												echo '<img src="/assets/img/monzo.png" style="height: 1em;"> &nbsp;';
 												$transaction_title = 'Top Up';
 											}
 											else if(empty($transaction['merchant']['name'])) {

@@ -1,14 +1,14 @@
 <?php
-	// this is the first step in the auth process. generate new session, generate state string, and save that to the server-side session for checking once we get the callback response from mondo.
+	// This is the first step in the auth process. generate new session, generate state string, and save that to the server-side session for checking once we get the callback response from monzo.
 	
 	session_start();
 	if(isset($_SESSION['accesstoken'])) {
-		// user already logged in, they aren't welcome here
+		// User already logged in, they aren't welcome here.
 		header('location: /');
 		exit('You\'re already logged in.');
 	}
 	
-	// generate the string
+	// Generate the string.
 	function gen_uuid() {
 	    return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
 	        // 32 bits for "time_low"
@@ -33,9 +33,9 @@
 	$state = gen_uuid();
 	$_SESSION['state'] = $state;
 	
-	// pull settings
+	// Pull settings.
 	require_once('../inc/settings.php');
 	
-	// send the user off to mondo to login
+	// Send the user off to monzo to login.
 	header("location: $api_auth_root/?client_id=$clientid&redirect_uri=$rooturl/auth/callback.php&response_type=code&state=$state");
 ?>

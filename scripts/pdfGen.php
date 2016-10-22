@@ -5,7 +5,7 @@
 	}
 	if(strtotime($_GET['date'])>time()) {
 		// in future, invalid.
-		exit('The date is in the future - unfortunately the Mondo API doesn\'t quite allow you to time-travel yet.');
+		exit('The date is in the future - unfortunately the Monzo API doesn\'t quite allow you to time-travel yet.');
 	}
 	
 	session_start();
@@ -33,7 +33,7 @@
 <html>
 	<head>
 		<?php require_once('../inc/head.php');?>
-		<title><?php echo date('F Y',strtotime($_GET['date']));?> Statement - Mondo Online Banking</title>
+		<title><?php echo date('F Y',strtotime($_GET['date']));?> Statement - Monzo Online Banking</title>
 	</head>
 	<body>
 		<div class="container">
@@ -171,7 +171,7 @@
 									<td>
 										<?php
 											if($transaction['is_load']) {
-												echo '<img src="/assets/img/mondo.png" style="height: 1em;">'.' &nbsp;'.$transaction['description'];
+												echo '<img src="/assets/img/monzo.png" style="height: 1em;">'.' &nbsp;'.$transaction['description'];
 											}
 											else if(empty($transaction['merchant']['name'])) {
 												echo $transaction['description'];
